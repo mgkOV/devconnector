@@ -1,5 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const passport = require('passport');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
@@ -12,10 +17,15 @@ mongoose
   .then(() => console.log('MongdoDB Connected'))
   .catch(err => console.log(`Mongoose connection err: ${err}`));
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+// BodyParser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-app.get('/', (req, res) => res.send('Hello'));
+// Pasport middleware
+app.use(passport.initialize());
+
+// Config passport
+require('./config/passport')(passport);
 
 // Use routes
 app.use('/api/users', users);
