@@ -96,7 +96,7 @@ router.post('/login', async (req, res) => {
 
 // @route GET /api/users/current
 // @desc Return current user
-// @access Privet
+// @access Private
 router.get('/current', requireAuth, (req, res) => {
   const { id, name, email, avatar } = req.user;
   res.json({ id, name, email, avatar });
